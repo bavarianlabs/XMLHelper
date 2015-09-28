@@ -5,12 +5,18 @@ namespace Bavarianlabs\XMLHelper;
 
 use Bavarianlabs\XMLHelper\Contracts\FormatInterface;
 use Bavarianlabs\XMLHelper\Contracts\XMLHelperInterface;
-use Bavarianlabs\XMLHelper\Exception\XMLHelperException;
+use Bavarianlabs\XMLHelper\Exception\EmptyDataCollectionException;
 
 class XMLHelper implements XMLHelperInterface
 {
+
     /**
-     * @var array Supported Formats Conversions
+     * @var mixed Bag for any data collection
+     */
+    private $data;
+
+    /**
+     * @var array Supported Formats for Conversions
      */
     private $supportedFormats = array (
         'application/xml'           => 'xml',
@@ -69,17 +75,39 @@ class XMLHelper implements XMLHelperInterface
 
     /**
      * Insert any data collection to parse after
-     * @param   mixed       $data
+     *
+     * @param   mixed $data
      * @return  XMLHelper
+     * @throws  EmptyDataCollectionException
      */
     function data($data)
     {
-        if (is_null($data)) throw new XMLHelperException();
+        $this->isDataEmpty($data);
+
         return $this->addData($data);
     }
 
+    /**
+     * Receive some data to save on property
+     *
+     * @param mixed|array   $data
+     */
     private function addData($data)
     {
         $this->data = $data;
+    }
+
+    /**
+     * Verify if data collection was given
+     *
+     * @param   $data
+     * @return bool true if data is not null
+     * @throws  EmptyDataCollectionException
+     */
+    private function isDataEmpty($data)
+    {
+        if (is_null($data)) throw new EmptyDataCollectionException();
+
+        return true;
     }
 }
