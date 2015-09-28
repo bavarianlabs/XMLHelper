@@ -1,0 +1,20 @@
+{
+    "name": "bavarianlabs/xmlhelper",
+    "description": "A simple XML library",
+    "minimum-stability": "dev",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Luciano Jr",
+            "email": "luciano@lucianojr.com.br"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Bavarianlabs\\XMLHelper\\": "src/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "@stable"
+    }
+}
