@@ -6,6 +6,9 @@ namespace Bavarianlabs\XMLHelper;
 use Bavarianlabs\XMLHelper\Contracts\FormatInterface;
 use Bavarianlabs\XMLHelper\Contracts\XMLHelperInterface;
 use Bavarianlabs\XMLHelper\Exception\EmptyDataCollectionException;
+use Bavarianlabs\XMLHelper\Exception\NotImplementedMethodException;
+use Bavarianlabs\XMLHelper\Format\Json;
+use Bavarianlabs\XMLHelper\Format\Xml;
 
 class XMLHelper implements XMLHelperInterface
 {
@@ -43,36 +46,6 @@ class XMLHelper implements XMLHelperInterface
         return $this->supportedFormats;
     }
 
-    function parse($data, FormatInterface $format)
-    {
-        // TODO: Implement parse() method.
-    }
-
-    function xml($data)
-    {
-        // TODO: Implement xml() method.
-    }
-
-    function json($data)
-    {
-        // TODO: Implement json() method.
-    }
-
-    function bson($data)
-    {
-        // TODO: Implement bson() method.
-    }
-
-    function yaml($data)
-    {
-        // TODO: Implement yaml() method.
-    }
-
-    function toArray($data)
-    {
-        // TODO: Implement toArray() method.
-    }
-
     /**
      * Insert any data collection to parse after
      *
@@ -106,8 +79,97 @@ class XMLHelper implements XMLHelperInterface
      */
     private function isDataEmpty($data)
     {
-        if (is_null($data)) throw new EmptyDataCollectionException();
+        if (empty($data)) throw new EmptyDataCollectionException();
 
         return true;
+    }
+
+    /**
+     * @param $data
+     */
+    private function extractData($data)
+    {
+        if (! is_null($data)) $this->data = $data;
+    }
+
+    /**
+     * Parse data to some format
+     *
+     * @param   mixed $data
+     * @param   FormatInterface $format
+     * @return  mixed
+     */
+    function parse($data = null, FormatInterface $format)
+    {
+        $this->extractData($data);
+        // TODO: Implement parse() method.
+    }
+
+    /**
+     * Parse data to XML format
+     *
+     * @param $data
+     * @return mixed XML Object
+     */
+    function xml($data = null)
+    {
+        $this->extractData($data);
+
+        return $this->parse($this->data, new Xml());
+    }
+
+    /**
+     * Parse data to JSON format
+     *
+     * @param $data
+     * @return mixed
+     */
+    function json($data = null)
+    {
+        $this->extractData($data);
+
+        return $this->parse($this->data, new Json());
+    }
+
+    /**
+     * Parse data to BSON format
+     *
+     * @param $data
+     * @return mixed
+     * @throws NotImplementedMethodException
+     */
+    function bson($data = null)
+    {
+        $this->extractData($data);
+
+        throw new NotImplementedMethodException();
+    }
+
+    /**
+     * Parse data to YAML format
+     *
+     * @param $data
+     * @return mixed
+     * @throws NotImplementedMethodException
+     */
+    function yaml($data = null)
+    {
+        $this->extractData($data);
+
+        throw new NotImplementedMethodException();
+    }
+
+    /**
+     * Parse data to array
+     *
+     * @param $data
+     * @return array
+     * @throws NotImplementedMethodException
+     */
+    function toArray($data = null)
+    {
+        $this->extractData($data);
+
+        throw new NotImplementedMethodException();
     }
 }
