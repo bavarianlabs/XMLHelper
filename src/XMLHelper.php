@@ -49,9 +49,9 @@ class XMLHelper implements XMLHelperInterface
     /**
      * Insert any data collection to parse after
      *
-     * @param   mixed $data
-     * @return  XMLHelper
-     * @throws  EmptyDataCollectionException
+     * @param  mixed $data
+     * @return XMLHelper
+     * @throws EmptyDataCollectionException
      */
     function data($data)
     {
@@ -61,54 +61,23 @@ class XMLHelper implements XMLHelperInterface
     }
 
     /**
-     * Receive some data to save on property
-     *
-     * @param mixed|array   $data
-     */
-    private function addData($data)
-    {
-        $this->data = $data;
-    }
-
-    /**
-     * Verify if data collection was given
-     *
-     * @param   $data
-     * @return bool true if data is not null
-     * @throws  EmptyDataCollectionException
-     */
-    private function isDataEmpty($data)
-    {
-        if (empty($data)) throw new EmptyDataCollectionException();
-
-        return true;
-    }
-
-    /**
-     * @param $data
-     */
-    private function extractData($data)
-    {
-        if (! is_null($data)) $this->data = $data;
-    }
-
-    /**
      * Parse data to some format
      *
-     * @param   mixed $data
-     * @param   FormatInterface $format
-     * @return  mixed
+     * @param  mixed           $data
+     * @param  FormatInterface $format
+     * @return mixed
      */
     function parse($data = null, FormatInterface $format)
     {
         $this->extractData($data);
-        // TODO: Implement parse() method.
+
+        return $format->parse($data);
     }
 
     /**
      * Parse data to XML format
      *
-     * @param $data
+     * @param  $data
      * @return mixed XML Object
      */
     function xml($data = null)
@@ -121,7 +90,7 @@ class XMLHelper implements XMLHelperInterface
     /**
      * Parse data to JSON format
      *
-     * @param $data
+     * @param  $data
      * @return mixed
      */
     function json($data = null)
@@ -134,7 +103,7 @@ class XMLHelper implements XMLHelperInterface
     /**
      * Parse data to BSON format
      *
-     * @param $data
+     * @param  $data
      * @return mixed
      * @throws NotImplementedMethodException
      */
@@ -148,7 +117,7 @@ class XMLHelper implements XMLHelperInterface
     /**
      * Parse data to YAML format
      *
-     * @param $data
+     * @param  $data
      * @return mixed
      * @throws NotImplementedMethodException
      */
@@ -162,7 +131,7 @@ class XMLHelper implements XMLHelperInterface
     /**
      * Parse data to array
      *
-     * @param $data
+     * @param  $data
      * @return array
      * @throws NotImplementedMethodException
      */
@@ -171,5 +140,41 @@ class XMLHelper implements XMLHelperInterface
         $this->extractData($data);
 
         throw new NotImplementedMethodException();
+    }
+
+    /**
+     * Receive some data to save on property
+     *
+     * @param mixed|array $data
+     */
+    private function addData($data)
+    {
+        $this->data = $data;
+    }
+
+    /**
+     * Verify if data collection was given
+     *
+     * @param  $data
+     * @return bool true if data is not null
+     * @throws EmptyDataCollectionException
+     */
+    private function isDataEmpty($data)
+    {
+        if (empty($data)) {
+            throw new EmptyDataCollectionException();
+        }
+
+        return true;
+    }
+
+    /**
+     * @param $data
+     */
+    private function extractData($data)
+    {
+        if (! is_null($data)) {
+            $this->data = $data;
+        }
     }
 }
