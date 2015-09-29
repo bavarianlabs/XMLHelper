@@ -83,41 +83,45 @@ class Xml extends BaseXml implements FormatInterface
     {
         foreach ($data as $key => $val) {
             unset($data[$key]);
-            // Skip attribute param
-            if (substr($key, 0, 1) == '@') {
+
+            if ($this->isAttributeArray($key)) {
                 continue;
             }
+
             if (is_numeric($key)) {
-                if ($this->defaultTagName !== FALSE) {
-                    $key = $this->defaultTagName;
-                } elseif ($this->skipNumeric === TRUE) {
-                    if (!is_array($val)) {
-                        $tabs_count = 0;
-                    } else {
-                        if ($tabs_count > 0) {
-                            $tabs_count--;
-                        }
-                    }
-                    continue;
-                } else {
+                $key = $this->defaultTagName ?: $key;
+
+                if ($this->skipNumeric === false) {
                     $key = $this->numericTagPrefix . $key;
                 }
+
+                if (! is_array($val)) {
+                    $tabs_count = 0;
+                }
+
+                if ($tabs_count > 0) {
+                    $tabs_count --;
+                }
+
+                continue;
             }
-            if ($this->filterNumbers === TRUE || in_array(preg_replace('#[0-9]*#', '', $key), $this->tagsToFilter)) {
-                // Remove numbers
-                $key = preg_replace('#[0-9]*#', '', $key);
-            }
-            if ($key !== FALSE) {
+
+            $key = $this->sanitizeNumber($key);
+
+            if ($key !== false) {
                 $this->writer->text(str_repeat($this->newTab, $tabs_count));
                 // Write element tag name
                 $this->writer->startElement($key);
+
                 // Check if there are some attributes
                 if (isset($this->elementAttrs[$key]) || isset($val['@attributes'])) {
+
                     if (isset($val['@attributes']) && is_array($val['@attributes'])) {
                         $attributes = $val['@attributes'];
                     } else {
                         $attributes = $this->elementAttrs[$key];
                     }
+
                     // Yeah, lets add them
                     foreach ($attributes as $elementAttrName => $elementAttrText) {
                         $this->writer->startAttribute($elementAttrName);
@@ -130,21 +134,22 @@ class Xml extends BaseXml implements FormatInterface
                     }
                 }
             }
+
             if (is_array($val)) {
-                if ($key !== FALSE) {
+                if ($key !== false) {
                     $this->writer->text($this->newLine);
                 }
                 $tabs_count++;
                 $this->_getXML($val, $tabs_count);
                 $tabs_count--;
-                if ($key !== FALSE) {
+                if ($key !== false) {
                     $this->writer->text(str_repeat($this->newTab, $tabs_count));
                 }
             } else {
                 if ($val != NULL || $val === 0) {
-                    if (isset($this->CDataKeys[$key]) || array_search($key, $this->CDataKeys) !== FALSE) {
+                    if (isset($this->CDataKeys[$key]) || array_search($key, $this->CDataKeys) !== false) {
                         $this->writer->writeCData($val);
-                    } elseif (array_search($key, $this->rawKeys) !== FALSE) {
+                    } elseif (array_search($key, $this->rawKeys) !== false) {
                         $this->writer->writeRaw($val);
                     } else {
                         $this->writer->text($val);
@@ -153,6 +158,7 @@ class Xml extends BaseXml implements FormatInterface
                     $this->writer->text('');
                 }
             }
+
             $this->insertNewLine($key);
         }
     }
@@ -166,5 +172,28 @@ class Xml extends BaseXml implements FormatInterface
             $this->writer->endElement();
             $this->writer->text($this->newLine);
         }
+    }
+
+    /**
+     * @param $key
+     * @return bool
+     */
+    private function isAttributeArray($key)
+    {
+        return substr($key, 0, 1) == '@';
+    }
+
+    /**
+     * @param $key
+     * @return mixed
+     */
+    private function sanitizeNumber($key)
+    {
+        if ($this->filterNumbers === true || in_array(preg_replace('#[0-9]*#', '', $key), $this->tagsToFilter)) {
+            $key = preg_replace('#[0-9]*#', '', $key);
+            return $key;
+        }
+
+        return $key;
     }
 }
