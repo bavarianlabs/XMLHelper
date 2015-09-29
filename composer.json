@@ -15,6 +15,7 @@
         }
     },
     "require-dev": {
-        "phpunit/phpunit": "@stable"
+        "phpunit/phpunit": "@stable",
+        "squizlabs/php_codesniffer": "2.*"
     }
 }
