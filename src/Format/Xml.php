@@ -175,8 +175,13 @@ class Xml extends BaseXml implements FormatInterface
      */
     private function addContent($val)
     {
-        if (! empty($val['@content']) && is_string($val['@content']) && isset($val['@attributes'])) {
-            return $val['@content'];
+        if (! empty($val['@content']) && isset($val['@attributes'])) {
+            if (is_string($val['@content'])) {
+                return $val['@content'];
+            }
+
+            $this->_getXML($val['@content']);
+
         }
 
         return $val;
