@@ -89,16 +89,9 @@ class Xml extends BaseXml implements FormatInterface
             }
 
             if (is_numeric($key)) {
-                $key = $this->defaultTagName ?: $key;
-
-                if ($this->skipNumeric === false) {
-                    $key = $this->numericTagPrefix . $key;
-                }
-
                 if (! is_array($val)) {
                     $tabs_count = 0;
                 }
-
                 if ($tabs_count > 0) {
                     $tabs_count --;
                 }
@@ -110,29 +103,8 @@ class Xml extends BaseXml implements FormatInterface
 
             if ($key !== false) {
                 $this->writer->text(str_repeat($this->newTab, $tabs_count));
-                // Write element tag name
                 $this->writer->startElement($key);
-
-                // Check if there are some attributes
-                if (isset($this->elementAttrs[$key]) || isset($val['@attributes'])) {
-
-                    if (isset($val['@attributes']) && is_array($val['@attributes'])) {
-                        $attributes = $val['@attributes'];
-                    } else {
-                        $attributes = $this->elementAttrs[$key];
-                    }
-
-                    // Yeah, lets add them
-                    foreach ($attributes as $elementAttrName => $elementAttrText) {
-                        $this->writer->startAttribute($elementAttrName);
-                        $this->writer->text($elementAttrText);
-                        $this->writer->endAttribute();
-                    }
-
-                    if ( ! empty($val['@content']) && is_string($val['@content']) && isset($val['@attributes'])) {
-                        $val = $val['@content'];
-                    }
-                }
+                $val = $this->setElementAttributes($key, $val);
             }
 
             if (is_array($val)) {
@@ -190,10 +162,79 @@ class Xml extends BaseXml implements FormatInterface
     private function sanitizeNumber($key)
     {
         if ($this->filterNumbers === true || in_array(preg_replace('#[0-9]*#', '', $key), $this->tagsToFilter)) {
-            $key = preg_replace('#[0-9]*#', '', $key);
-            return $key;
+            return preg_replace('#[0-9]*#', '', $key);
         }
 
         return $key;
+    }
+
+    /**
+     * @param $val
+     * @return mixed
+     */
+    private function addContent($val)
+    {
+        if (! empty($val['@content']) && is_string($val['@content']) && isset($val['@attributes'])) {
+            return $val['@content'];
+        }
+
+        return $val;
+    }
+
+    /**
+     * @param $attributes
+     */
+    private function setElements($attributes)
+    {
+        foreach ($attributes as $elementAttrName => $elementAttrText) {
+            $this->writer->startAttribute($elementAttrName);
+            $this->writer->text($elementAttrText);
+            $this->writer->endAttribute();
+        }
+    }
+
+    /**
+     * @param $key
+     * @param $val
+     * @return mixed
+     */
+    private function setElementAttributes($key, $val)
+    {
+        if (! $this->hasAttributes($key, $val)) {
+            return $val;
+        }
+
+        list($val, $attributes) = $this->getAttributes($key, $val);
+
+        $this->setElements($attributes);
+
+        return $this->addContent($val);
+
+    }
+
+    /**
+     * @param $key
+     * @param $val
+     * @return array
+     */
+    private function getAttributes($key, $val)
+    {
+        if (isset($val['@attributes']) && is_array($val['@attributes'])) {
+            $attributes = $val['@attributes'];
+            return array($val, $attributes);
+        } else {
+            $attributes = $this->elementAttrs[$key];
+            return array($val, $attributes);
+        }
+    }
+
+    /**
+     * @param $key
+     * @param $val
+     * @return bool
+     */
+    private function hasAttributes($key, $val)
+    {
+        return isset($this->elementAttrs[$key]) || isset($val['@attributes']);
     }
 }
