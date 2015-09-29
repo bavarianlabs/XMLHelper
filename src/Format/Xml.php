@@ -92,6 +92,7 @@ class Xml extends BaseXml implements FormatInterface
                 if (! is_array($val)) {
                     $tabs_count = 0;
                 }
+
                 if ($tabs_count > 0) {
                     $tabs_count --;
                 }
@@ -187,9 +188,7 @@ class Xml extends BaseXml implements FormatInterface
     private function setElements($attributes)
     {
         foreach ($attributes as $elementAttrName => $elementAttrText) {
-            $this->writer->startAttribute($elementAttrName);
-            $this->writer->text($elementAttrText);
-            $this->writer->endAttribute();
+            $this->setElement($elementAttrName, $elementAttrText);
         }
     }
 
@@ -221,11 +220,11 @@ class Xml extends BaseXml implements FormatInterface
     {
         if (isset($val['@attributes']) && is_array($val['@attributes'])) {
             $attributes = $val['@attributes'];
-            return array($val, $attributes);
         } else {
             $attributes = $this->elementAttrs[$key];
-            return array($val, $attributes);
         }
+
+        return array($val, $attributes);
     }
 
     /**
@@ -236,5 +235,16 @@ class Xml extends BaseXml implements FormatInterface
     private function hasAttributes($key, $val)
     {
         return isset($this->elementAttrs[$key]) || isset($val['@attributes']);
+    }
+
+    /**
+     * @param $elementAttrName
+     * @param $elementAttrText
+     */
+    private function setElement($elementAttrName, $elementAttrText)
+    {
+        $this->writer->startAttribute($elementAttrName);
+        $this->writer->text($elementAttrText);
+        $this->writer->endAttribute();
     }
 }
