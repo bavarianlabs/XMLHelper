@@ -54,7 +54,7 @@ class Xml extends BaseXml implements FormatInterface
      */
     private function isRootAttrArray()
     {
-        return !empty($this->getRootAttr()) && is_array($this->getRootAttr());
+        return (! is_null($this->getRootAttr()) && is_array($this->getRootAttr()));
     }
 
     private function setAttrArray(array $data)
@@ -189,9 +189,13 @@ class Xml extends BaseXml implements FormatInterface
 
     /**
      * @param $attributes
+     * @return bool
      */
     private function setElements($attributes)
     {
+        if (! is_array($attributes)) {
+            return;
+        }
         foreach ($attributes as $elementAttrName => $elementAttrText) {
             $this->setElement($elementAttrName, $elementAttrText);
         }
