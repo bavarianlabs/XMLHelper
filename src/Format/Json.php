@@ -11,6 +11,10 @@ namespace Bavarianlabs\XMLHelper\Format;
 
 use Bavarianlabs\XMLHelper\Contracts\FormatInterface;
 
+/**
+ * Class Json
+ * @package Bavarianlabs\XMLHelper\Format
+ */
 class Json implements FormatInterface
 {
 
@@ -20,7 +24,7 @@ class Json implements FormatInterface
      * @param   mixed $data
      * @return  mixed
      */
-    function parse($data)
+    public function parse($data)
     {
         // TODO: Implement parse() method.
     }

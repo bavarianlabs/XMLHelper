@@ -5,6 +5,10 @@ namespace Bavarianlabs\XMLHelper\Format;
 
 use XMLWriter;
 
+/**
+ * Class BaseXml
+ * @package Bavarianlabs\XMLHelper\Format
+ */
 abstract class BaseXml
 {
     /**
@@ -47,18 +51,54 @@ abstract class BaseXml
      */
     protected $newTab = "\t";
 
+    /**
+     * @var string
+     */
     protected $numericTagPrefix = 'key';
+    /**
+     * @var bool
+     */
     protected $skipNumeric = true;
+    /**
+     * @var bool
+     */
     protected $_tabulation = true;            //TODO
+    /**
+     * @var bool
+     */
     protected $defaultTagName = false;    //Tag For Numeric Array Keys
+    /**
+     * @var array
+     */
     protected $rawKeys = array();
+    /**
+     * @var int
+     */
     protected $emptyElementSyntax = 1;
+    /**
+     * @var bool
+     */
     protected $filterNumbers = false;
+    /**
+     * @var array
+     */
     protected $tagsToFilter = array();
+    /**
+     * @var array
+     */
     protected $elementAttrs = array();        //example: $attrs['element_name'][] = array('attr_name' => 'attr_value');
+    /**
+     * @var array
+     */
     protected $CDataKeys = array();
 
+    /**
+     *
+     */
     const EMPTY_SELF_CLOSING = 1;
+    /**
+     *
+     */
     const EMPTY_FULL         = 2;
 
     /**

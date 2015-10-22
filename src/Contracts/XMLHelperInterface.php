@@ -3,6 +3,10 @@
 namespace Bavarianlabs\XMLHelper\Contracts;
 
 
+/**
+ * Interface XMLHelperInterface
+ * @package Bavarianlabs\XMLHelper\Contracts
+ */
 interface XMLHelperInterface
 {
 
@@ -13,7 +17,7 @@ interface XMLHelperInterface
      * @param   FormatInterface $format
      * @return  mixed
      */
-    function parse($data = null, FormatInterface $format);
+    public function parse($data = null, FormatInterface $format);
 
     /**
      * Parse data to XML format
@@ -21,7 +25,7 @@ interface XMLHelperInterface
      * @param $data
      * @return mixed XML Object
      */
-    function xml($data = null);
+    public function xml($data = null);
 
     /**
      * Parse data to JSON format
@@ -29,7 +33,7 @@ interface XMLHelperInterface
      * @param $data
      * @return mixed
      */
-    function json($data = null);
+    public function json($data = null);
 
     /**
      * Parse data to BSON format
@@ -37,7 +41,7 @@ interface XMLHelperInterface
      * @param $data
      * @return mixed
      */
-    function bson($data = null);
+    public function bson($data = null);
 
     /**
      * Parse data to YAML format
@@ -45,7 +49,7 @@ interface XMLHelperInterface
      * @param $data
      * @return mixed
      */
-    function yaml($data = null);
+    public function yaml($data = null);
 
     /**
      * Parse data to array
@@ -53,12 +57,12 @@ interface XMLHelperInterface
      * @param $data
      * @return array
      */
-    function toArray($data = null);
+    public function toArray($data = null);
 
     /**
      * Insert any data collection to parse after
      *
      * @param $data
      */
-    function data($data);
+    public function data($data);
 }

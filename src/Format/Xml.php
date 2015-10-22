@@ -6,6 +6,10 @@ namespace Bavarianlabs\XMLHelper\Format;
 use Bavarianlabs\XMLHelper\Contracts\FormatInterface;
 use XMLWriter;
 
+/**
+ * Class Xml
+ * @package Bavarianlabs\XMLHelper\Format
+ */
 class Xml extends BaseXml implements FormatInterface
 {
 
@@ -26,7 +30,7 @@ class Xml extends BaseXml implements FormatInterface
      * @param   mixed $data
      * @return  mixed
      */
-    function parse($data)
+    public function parse($data)
     {
         $this->writer->openMemory();
         $this->writer->startDocument($this->version, $this->encoding);
@@ -57,6 +61,9 @@ class Xml extends BaseXml implements FormatInterface
         return (! is_null($this->getRootAttr()) && is_array($this->getRootAttr()));
     }
 
+    /**
+     * @param array $data
+     */
     private function setAttrArray(array $data)
     {
         foreach ($data as $attrName => $attrText) {

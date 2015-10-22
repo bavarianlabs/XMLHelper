@@ -3,6 +3,10 @@
 namespace Bavarianlabs\XMLHelper\Contracts;
 
 
+/**
+ * Interface FormatInterface
+ * @package Bavarianlabs\XMLHelper\Contracts
+ */
 interface FormatInterface
 {
     /**
@@ -11,5 +15,5 @@ interface FormatInterface
      * @param   mixed   $data
      * @return  mixed
      */
-    function parse($data);
+    public function parse($data);
 }

@@ -10,6 +10,10 @@ use Bavarianlabs\XMLHelper\Exception\NotImplementedMethodException;
 use Bavarianlabs\XMLHelper\Format\Json;
 use Bavarianlabs\XMLHelper\Format\Xml;
 
+/**
+ * Class XMLHelper
+ * @package Bavarianlabs\XMLHelper
+ */
 class XMLHelper implements XMLHelperInterface
 {
 
