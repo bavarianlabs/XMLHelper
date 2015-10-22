@@ -57,7 +57,7 @@ class XMLHelper implements XMLHelperInterface
      * @return XMLHelper
      * @throws EmptyDataCollectionException
      */
-    function data($data)
+    public function data($data)
     {
         $this->isDataEmpty($data);
 
@@ -71,7 +71,7 @@ class XMLHelper implements XMLHelperInterface
      * @param  FormatInterface $format
      * @return mixed
      */
-    function parse($data = null, FormatInterface $format)
+    public function parse($data = null, FormatInterface $format)
     {
         $this->extractData($data);
 
@@ -84,7 +84,7 @@ class XMLHelper implements XMLHelperInterface
      * @param  $data
      * @return mixed XML Object
      */
-    function xml($data = null)
+    public function xml($data = null)
     {
         $this->extractData($data);
 
@@ -97,7 +97,7 @@ class XMLHelper implements XMLHelperInterface
      * @param  $data
      * @return mixed
      */
-    function json($data = null)
+    public function json($data = null)
     {
         $this->extractData($data);
 
@@ -111,7 +111,7 @@ class XMLHelper implements XMLHelperInterface
      * @return mixed
      * @throws NotImplementedMethodException
      */
-    function bson($data = null)
+    public function bson($data = null)
     {
         $this->extractData($data);
 
@@ -125,7 +125,7 @@ class XMLHelper implements XMLHelperInterface
      * @return mixed
      * @throws NotImplementedMethodException
      */
-    function yaml($data = null)
+    public function yaml($data = null)
     {
         $this->extractData($data);
 
@@ -139,7 +139,7 @@ class XMLHelper implements XMLHelperInterface
      * @return array
      * @throws NotImplementedMethodException
      */
-    function toArray($data = null)
+    public function toArray($data = null)
     {
         $this->extractData($data);
 

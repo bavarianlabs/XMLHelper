@@ -85,8 +85,9 @@ abstract class BaseXml
     protected $tagsToFilter = array();
     /**
      * @var array
+     * @example $attrs['element_name'][] = array('attr_name' => 'attr_value');
      */
-    protected $elementAttrs = array();        //example: $attrs['element_name'][] = array('attr_name' => 'attr_value');
+    protected $elementAttrs = array();
     /**
      * @var array
      */
